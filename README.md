@@ -1,21 +1,19 @@
 # Cards
 
-**TODO: Add description**
+**Install Elixir
 
 ## Installation
 
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed
-by adding `cards` to your list of dependencies in `mix.exs`:
-
-```elixir
-def deps do
-  [
-    {:cards, "~> 0.1.0"}
-  ]
-end
+```
+homebrew update
 ```
 
-Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
-and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
-be found at [https://hexdocs.pm/cards](https://hexdocs.pm/cards).
-
+```
+brew install elixir
+```
+On successfull installation check if the installation has been completed or not using 
+```
+elixir --version
+```
+Along with elixir we get “Mix” installed, mix is a command line tool. mix is used for different purposes like generating projects, running tasks, compiling projects, managing dependencies.
+Mix is going to be used extensively for managing project/dependencies and running tasks.
