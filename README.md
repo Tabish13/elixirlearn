@@ -1,63 +1,63 @@
 # Cards
 
-**Pattern Matching: Pattern matching is widely used in elixir for assign a variable i.e. return a value to variable on performing some operation**
+**Pattern Matching: Read a write a file to disk and use pattern matching to detect the status and data**
 
 ## Example
-Let's return a list of cards from the deck as specified the hand by the value i.e. suppose we have 10 cards an we need 4 cards so we should get 4 cards return from the list of cards passed.
+
+#### Code to write file to disk
 
 ```
-def deal(deck, hand)do
-    Enum.split(deck, hand)
+def save(deck, filename)do
+  binary = :erlang.term_to_binary(deck)
+  File.write(filename, binary)
 end
 ```
 
-Explanation
-```
-{deal, remaining_cards} = deal(["Ace of Spades", "Two of Spades", "Three of Spaded", "Four of Spades" , "Five of Spades"], 2)
-```
+Where `:erlang` is used to use the erlang function inside the elixir `term_to_binary` take data convert it to binary string.
 
-Output of deal function is:
-```
-{
-  ["Ace of Spades", "Two of Spades"],
-  [..]
-}
-```
+File.write takes a file name and a binary to write to the disk.
 
-The syntax 
-```
-{deal, remaining_cards} = ...
-```
-will assign the tuple first element to deal variable and the remaining cards are stored in second variable on the left side. This is possible due to pattern matching of elixir 
-
-It compares the left side with right side i.e.
+#### code to read file from disk
 
 ```
-Left side:
-{deal, remaining_cards} 
-
-Right side:
-{
-  ["Ace of Spades", "Two of Spades"],
-  [..]
-}
-
-So deal is list of the card present on the right side and the remaining_cards is the second list on the right side.
-```
-i.e if we print deal it will output 
-```
-["Ace of Spades", "Two of Spades"]
+def load(filename)do
+  {status, binary} = File.read(filename)
+  case status do
+    :ok -> :erlang.binary_to_term(binary)
+    :error -> "File does not exist"
+  end
+end
 ```
 
-## To Run sample code run the below scripts:
 ```
-iex -S mix
+Modify the case status and remove the {status, binary}
+Pattern matching with case
+def load(filename) do
+    case File.read(filename) do
+      {:ok, binary} -> :erlang.binary_to_term(binary)
+      {:error, _reason} -> "File does not exist"
+    end
+  end
+```
 
-cards = Cards.create_deck
-shuffled_cards = Cards.shuffle(cards)
-{deal, remaining_cards} = Cards.deal(shuffled_cards, 5)
+### Using Pipe Operators
+
 ```
-To check the deal variable print the deal
+def create_hand(hand_size) do
+    deck = Cards.create_deck()
+    deck = Cards.shuffle(deck)
+    hand = Cards.deal(deck, hand_size)
+  end
+
 ```
-deal
+
+The above code is similar to the below code using the pipe operator
+Please pay attention that the deck variable should be the first argument of the function in the piped functions i.e when we call the deal function we dont need to pass deck as it is automatically passed as first argument from the previous function.
+
+```
+def create_hand(hand_size) do
+    Cards.create_deck()
+    |> Cards.shuffle()
+    |> Cards.deal(hand_size)
+  end
 ```
