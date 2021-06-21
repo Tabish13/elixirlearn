@@ -1,6 +1,6 @@
 defmodule Cards do
   @moduledoc """
-  Documentation for `Cards`.
+  Provide developer with function to handle deck and create hands
   """
 
   @doc """
